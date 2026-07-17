@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GoldPulse Core v24.0 | Master Ecosystem</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #030303; 
+            color: #EAEAEA; 
+        }
+        .gold-border { border: 1px solid rgba(212, 175, 55, 0.25); }
+        .gold-glow { box-shadow: 0 0 35px rgba(212, 175, 55, 0.15); }
+        .gold-text { color: #D4AF37; }
+        .gold-bg { background-color: #D4AF37; }
+        .glass-panel { background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(10px); }
+        
+        /* Page Switching Animation */
+        .page-section { display: none; }
+        .page-section.active { display: block; animation: fadeIn 0.4s ease; }
+        
+        /* Accordion for Academy */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-content.open {
+            max-height: 1000px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Safe ContentEditable Placeholder styling */
+        [contenteditable="true"]:empty:before {
+            content: attr(placeholder);
+            color: #52525b;
+        }
+    </style>
+</head>
+<body class="p-4 max-w-md mx-auto pb-28">
+
+    <!-- WELCOME COVER SCREEN -->
+    <div id="welcome-cover" class="fixed inset-0 z-[100] bg-black flex flex-col justify-between p-6 transition-all duration-700 ease-in-out">
+        <div class="mt-8 text-center">
+            <div class="w-20 h-20 mx-auto rounded-full bg-zinc-900 flex items-center justify-center gold-border gold-glow mb-4">
+                <span class="text-3xl">⚜️</span>
+            </div>
+            <h1 class="text-xs font-black tracking-[0.2em] text-zinc-500 uppercase">System Core Initiation</h1>
+        </div>
+
+        <div class="space-y-6 text-center px-2">
+            <h2 class="text-2xl font-black tracking-tight text-white uppercase leading-tight">
+                Welcome to <br><span class="gold-text">Gold Pulse Trading Bot</span>
+            </h2>
+            <div class="h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent w-full"></div>
+            <p class="text-xs text-zinc-400 font-bold leading-relaxed max-w-xs mx-auto">
+                "WELCOME TO GOLD PULSE TRADING BOT we are thankfull to have you in touch the coughtch is yours lets trade together"
+            </p>
+        </div>
+
+        <div class="mb-12">
+            <button onclick="dismissWelcomeCover()" class="w-full bg-[#D4AF37] hover:bg-yellow-600 active:scale-95 text-black font-black text-xs uppercase tracking-widest py-4 rounded-2xl transition-all shadow-lg shadow-[#D4AF37]/10">
+                Access Terminal
+            </button>
+            <p class="text-[8px] text-center text-zinc-600 mt-3 font-mono">AUTHORIZED PERSONNEL ONLY • SECURE V24.0</p>
+        </div>
+    </div>
+
+    <!-- MAIN CONTROL HEADER -->
+    <div class="flex justify-between items-center mb-4 glass-panel p-4 rounded-2xl gold-border gold-glow">
+        <div class="flex items-center gap-3">
+            <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse" id="global-status-dot"></div>
+            <div>
+                <h1 class="text-xs font-black tracking-widest text-white uppercase m-0">GoldPulse Core v24.0</h1>
+                <p class="text-[9px] text-zinc-500 uppercase font-bold" id="bridge-status-text">Bridge Status: Disconnected</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <p class="text-[9px] text-zinc-400 font-bold uppercase leading-none">Exness Real9</p>
+            <p class="text-xs font-mono font-black gold-text mt-1">ID: 133994708</p>
+        </div>
+    </div>
+
+    <!-- MAIN APP PAGES -->
+    <div class="app-container">
+
+        <!-- PAGE 1: CORE TERMINAL -->
+        <div id="home-page" class="page-section active">
+            
+            <!-- LIVE SESSION TRACKER (EAT) -->
+            <div class="glass-panel p-4 rounded-2xl gold-border mb-4">
+                <p class="text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-2.5">Live Session Tracker (EAT)</p>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div id="session-tokyo" class="rounded-lg p-2 transition-all duration-300">
+                        <p class="text-[8px] uppercase font-bold tracking-wider">Tokyo</p>
+                        <p class="text-[9px] font-mono mt-0.5">03:00 - 12:00</p>
+                    </div>
+                    <div id="session-london" class="rounded-lg p-2 transition-all duration-300">
+                        <p class="text-[8px] uppercase font-bold tracking-wider">London</p>
+                        <p class="text-[9px] font-mono mt-0.5">11:00 - 20:00</p>
+                    </div>
+                    <div id="session-ny" class="rounded-lg p-2 transition-all duration-300">
+                        <p class="text-[8px] uppercase font-bold tracking-wider">New York</p>
+                        <p class="text-[9px] font-mono mt-0.5">16:00 - 01:00</p>
+                    </div>
+                </div>
+                <div class="flex justify-center gap-4 mt-3 pt-2.5 border-t border-zinc-900 text-[8px] uppercase tracking-wider font-black">
+                    <div class="flex items-center gap-1.5 text-green-400">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Active Session
+                    </div>
+                    <div class="flex items-center gap-1.5 text-yellow-500/70">
+                        <span class="w-2 h-2 rounded-full bg-yellow-500"></span> Inactive Session
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASSET SELECTOR & SYSTEM STRATEGY -->
+            <div class="glass-panel p-4 rounded-2xl gold-border mb-4">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-zinc-400">Target &amp; Strategy</span>
+                    <span id="auto-status" class="text-[9px] font-bold px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 font-mono">MANUAL ACTIVE</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <div class="relative">
+                        <!-- Drops down custom list and fires event to sync both Chart and News Feed -->
+                        <select id="pairSelector" onchange="updatePair(this.value)" class="w-full bg-zinc-900 border border-zinc-800 text-xs font-mono text-white rounded-xl p-3 focus:outline-none focus:border-[#D4AF37] appearance-none">
+                            <option value="XAUUSD">XAUUSD (Gold)</option>
+                            <option value="EURUSD">EURUSD (Euro)</option>
+                            <option value="GBPUSD">GBPUSD (Cable)</option>
+                            <option value="USDJPY">USDJPY (Yen)</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none gold-text text-[10px]">▼</div>
+                    </div>
+                    <button id="autoSelectBtn" onclick="toggleAutoSelect()" class="bg-zinc-900 hover:bg-zinc-800/80 text-zinc-300 border border-zinc-800 text-xs font-bold uppercase tracking-wider rounded-xl p-3 transition-all flex items-center justify-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-zinc-500" id="auto-indicator"></span> Auto Select
+                    </button>
+                </div>
+                <div class="border-t border-zinc-900 pt-3 flex justify-between items-center">
+                    <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">News Delay Filter:</span>
+                    <div class="relative">
+                        <select id="newsDelaySelector" onchange="updateNewsDelay(this.value)" class="bg-zinc-950 border border-zinc-800 text-[10px] font-mono text-white rounded-lg p-1.5 focus:outline-none focus:border-[#D4AF37] appearance-none pr-6">
+                            <option value="5">Wait 5 Mins</option>
+                            <option value="15" selected>Wait 15 Mins</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none gold-text text-[8px]">▼</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC MULTI-PAIR NEWS & SMC TARGET PANEL -->
+            <div class="glass-panel p-4 rounded-2xl gold-border mb-4">
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-2 mb-2.5">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-zinc-400">SMC Live News &amp; Liquidity</span>
+                    <span class="text-[8px] text-green-400 bg-green-950/40 border border-green-800/30 px-1.5 py-0.5 rounded font-bold uppercase">Scanning Live</span>
+                </div>
+                <div class="flex items-center gap-3 bg-yellow-950/10 border border-yellow-600/20 p-2.5 rounded-xl">
+                    <div class="text-lg" id="news-icon">⚡</div>
+                    <div class="text-[10px]">
+                        <p class="text-yellow-500 font-bold uppercase tracking-wide" id="news-headline">XAUUSD Structural Warning</p>
+                        <p class="text-zinc-400 mt-0.5" id="news-detail">Asian Session High swept. Potential institutional short block forming.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ONE-CLICK MT5 BRIDGING CONTROLS -->
+            <div class="glass-panel p-4 rounded-2xl gold-border mb-4">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-zinc-400">Direct MT5 Bridge Execution</span>
+                    <div class="flex items-center gap-1 bg-zinc-950 border border-zinc-900 rounded-lg p-0.5">
+                        <button onclick="adjustLot(-0.01)" class="w-6 h-6 flex items-center justify-center font-bold text-zinc-400 hover:text-white select-none">-</button>
+                        <span id="tradeLotSize" class="w-10 text-center text-xs font-mono font-bold gold-text">0.10</span>
+                        <button onclick="adjustLot(0.01)" class="w-6 h-6 flex items-center justify-center font-bold text-zinc-400 hover:text-white select-none">+</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <button onclick="executeDirectTrade('BUY')" class="bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-black text-xs uppercase py-3 rounded-xl transition-all tracking-wider">
+                        ⚡ Instant Buy
+                    </button>
+                    <button onclick="executeDirectTrade('SELL')" class="bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-black text-xs uppercase py-3 rounded-xl transition-all tracking-wider">
+                        ⚡ Instant Sell
+                    </button>
+                </div>
+                <button onclick="executeDirectTrade('CLOSE_ALL')" class="w-full bg-zinc-900 hover:bg-zinc-850 active:scale-95 text-zinc-400 hover:text-white border border-zinc-800 font-bold text-[10px] uppercase py-2 rounded-lg transition-all tracking-widest">
+                    ⚠️ Emergency Close All Open Positions
+                </button>
+            </div>
+
+            <!-- FUNCTIONING LIVE TRADINGVIEW CHART -->
+            <div class="w-full h-60 rounded-2xl overflow-hidden gold-border gold-glow mb-4">
+                <iframe id="tvWidget" src="https://s.tradingview.com/widgetembed/?symbol=FX%3AXAUUSD&interval=15&theme=dark" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <!-- TERMINAL OPERATIONS LOG -->
+            <div class="glass-panel p-4 rounded-2xl gold-border h-40 overflow-y-auto font-mono text-[10px]">
+                <p class="gold-text font-black uppercase tracking-wider text-[9px] mb-2 border-b border-zinc-800 pb-1">System Operation Logs</p>
+                <div id="console-logs" class="space-y-1 text-zinc-400">
+                    <p class="text-green-400">[00:01] GoldPulse Core v24.0 Initialized.</p>
+                    <p class="text-zinc-500">[00:02] Awaiting local backend pipeline bridge connection...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: SIGNALS & NFP CALENDAR -->
+        <div id="signals-page" class="page-section">
+            
+            <!-- NFP HIGH-IMPACT CALENDAR -->
+            <div class="glass-panel p-4 rounded-2xl gold-border mb-4">
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-2 mb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-zinc-400">EAT Non-Farm Payrolls (NFP) Tracker</span>
+                    <div class="relative">
+                        <select id="nfpYearSelector" onchange="renderNFPDates(this.value)" class="bg-zinc-950 border border-zinc-800 text-[10px] font-mono text-white rounded-lg p-1 px-3 focus:outline-none focus:border-[#D4AF37] appearance-none pr-6">
+                            <option value="2026" selected>2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-2 flex items-center pointer-events-none gold-text text-[8px]">▼</div>
+                    </div>
+                </div>
+
+                <div class="bg-rose-950/20 border border-rose-900/30 p-2.5 rounded-xl mb-3 text-center">
+                    <p class="text-[8px] text-rose-500 font-bold uppercase tracking-widest">Next NFP Release</p>
+                    <p id="nfp-date-string" class="text-white font-mono font-bold text-xs mt-0.5">Aug 7, 2026 at 15:30 EAT</p>
+                </div>
+
+                <div class="space-y-1.5 max-h-36 overflow-y-auto pr-1" id="nfp-events-list">
+                    <!-- Dynamically rendered via JS -->
+                </div>
+            </div>
+
+            <!-- ACADEMY TELEGRAM SETUPS -->
+            <div class="glass-panel p-4 rounded-2xl gold-border mb-4">
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-2 mb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-zinc-400">Active Telegram Signal Setups</span>
+                    <span class="text-[8px] text-yellow-500 border border-yellow-800/30 px-1.5 py-0.5 rounded font-bold uppercase">Pending Execution</span>
+                </div>
+                
+                <div class="bg-zinc-950/80 border border-zinc-900 rounded-xl p-3 mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-black text-xs tracking-wider text-white">XAUUSD (GOLD) - SELL LIMIT</span>
+                        <span class="text-[9px] font-bold text-red-500">RISK: 1%</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-1 text-[10px] font-mono border-y border-zinc-900 py-2 my-2">
+                        <div>
+                            <p class="text-zinc-500 text-[8px] uppercase">Entry Zone</p>
+                            <p class="text-white font-bold">2345.50</p>
+                        </div>
+                        <div>
+                            <p class="text-zinc-500 text-[8px] uppercase">Stop Loss</p>
+                            <p class="text-rose-500 font-bold">2348.50</p>
+                        </div>
+                        <div>
+                            <p class="text-zinc-500 text-[8px] uppercase">Target (TP)</p>
+                            <p class="text-emerald-500 font-bold">2335.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: ACADEMY -->
+        <div id="academy-page" class="page-section">
+            <div class="glass-panel p-4 rounded-2xl gold-border mb-4">
+                <div class="border-b border-zinc-900 pb-2 mb-4">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-zinc-400">GoldPulse Academy Resources</span>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- ACCORDION MODULE 1 -->
+                    <div class="bg-zinc-950/60 border border-zinc-900 rounded-xl overflow-hidden">
+                        <button onclick="toggleAccordion('module-1')" class="w-full flex justify-between items-center p-3 text-left font-black text-xs uppercase text-white hover:text-[#D4AF37] transition-all">
+                            <span>Module 1: SMC Market Structure</span>
+                            <span id="module-1-icon">▼</span>
+                        </button>
+                        <div id="module-1" class="accordion-content">
+                            <div class="p-3 border-t border-zinc-900 text-[10px] text-zinc-400 space-y-2 leading-relaxed bg-black/40">
+                                <p><strong class="gold-text">SMC Core Theory:</strong> Structure mapping is the foundation. Learn how to accurately spot Boss (Break of Structure) and ChoCh (Change of Character).</p>
+                                <p>• Identifying structural swing highs and lows.</p>
+                                <p>• Premium vs. Discount zones using Fibonacci retracements.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACCORDION MODULE 2 -->
+                    <div class="bg-zinc-950/60 border border-zinc-900 rounded-xl overflow-hidden">
+                        <button onclick="toggleAccordion('module-2')" class="w-full flex justify-between items-center p-3 text-left font-black text-xs uppercase text-white hover:text-[#D4AF37] transition-all">
+                            <span>Module 2: Liquidity &amp; Order Blocks</span>
+                            <span id="module-2-icon">▼</span>
+                        </button>
+                        <div id="module-2" class="accordion-content">
+                            <div class="p-3 border-t border-zinc-900 text-[10px] text-zinc-400 space-y-2 leading-relaxed bg-black/40">
+                                <p><strong class="gold-text">Institutions hunt liquidity.</strong> Learn to trade where others get stopped out.</p>
+                                <p>• High-probability Order Blocks vs. weak supply/demand areas.</p>
+                                <p>• Identifying Fair Value Gaps (FVG) and structural imbalances.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: STUDENT CHAT (CODEPEN SAFE) -->
+        <div id="chat-page" class="page-section">
+            <div class="glass-panel p-4 rounded-2xl gold-border flex flex-col h-[420px]">
+                <div class="border-b border-zinc-900 pb-2 mb-3">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-zinc-400">Academy Community Chat</span>
+                </div>
+
+                <!-- SCROLLABLE CHAT MESSAGES -->
+                <div id="chat-box" class="flex-grow overflow-y-auto space-y-3 mb-3 pr-1 text-[10px]">
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-2.5 rounded-xl max-w-[85%]">
+                        <p class="font-black text-[#D4AF37] mb-0.5">Trevo <span class="text-[7px] text-zinc-500 font-normal">01:05 AM</span></p>
+                        <p class="text-zinc-300">Gold is hitting our premium institutional zone perfectly. Watch for a rejection signature!</p>
+                    </div>
+                    <div class="bg-zinc-900/40 border border-zinc-850 p-2.5 rounded-xl max-w-[85%] self-end ml-auto text-right">
+                        <p class="font-black text-zinc-400 mb-0.5">Trader_Pro <span class="text-[7px] text-zinc-500 font-normal">01:10 AM</span></p>
+                        <p class="text-zinc-300">Just secured +30 pips off that block, thanks boss! 🔥</p>
+                    </div>
+                </div>
+
+                <!-- SAFE SECURE CHAT INPUT -->
+                <div class="flex items-center gap-2 border-t border-zinc-900 pt-3">
+                    <div id="chatInput" contenteditable="true" placeholder="Type a secure message..." class="flex-grow bg-zinc-900/60 border border-zinc-800 text-white text-[11px] rounded-xl px-3 py-2.5 focus:outline-none focus:border-[#D4AF37] min-h-[36px] max-h-[80px] overflow-y-auto"></div>
+                    <button onclick="sendChatMessage()" class="bg-[#D4AF37] hover:bg-yellow-600 text-black font-black text-[10px] uppercase px-4 h-9 rounded-xl transition-all">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 5: RISK SETTINGS -->
+        <div id="settings-page" class="page-section">
+            <!-- RISK & LOT SIZE CALCULATOR -->
+            <div class="glass-panel p-5 rounded-2xl gold-border gold-glow mb-4 space-y-4">
+                <h2 class="text-xs font-black uppercase tracking-widest text-white border-b border-zinc-900 pb-2">Risk &amp; Lot-Size Calculator</h2>
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between text-[9px] text-zinc-500 uppercase font-bold mb-1">
+                            <span>Balance ($)</span>
+                            <span id="labelBalance" class="gold-text font-mono">$1,000</span>
+                        </div>
+                        <input type="range" id="calcBalance" min="100" max="10000" step="100" value="1000" oninput="updateCalculatorValues()" class="w-full accent-[#D4AF37] bg-zinc-900 h-1 rounded-lg appearance-none">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[9px] text-zinc-500 uppercase font-bold mb-1">
+                            <span>Risk %</span>
+                            <span id="labelRisk" class="gold-text font-mono">1%</span>
+                        </div>
+                        <input type="range" id="calcRisk" min="0.5" max="5" step="0.5" value="1" oninput="updateCalculatorValues()" class="w-full accent-[#D4AF37] bg-zinc-900 h-1 rounded-lg appearance-none">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[9px] text-zinc-500 uppercase font-bold mb-1">
+                            <span>Stop Loss (Pips)</span>
+                            <span id="labelStopLoss" class="gold-text font-mono">30 Pips</span>
+                        </div>
+                        <input type="range" id="calcStopLoss" min="10" max="150" step="5" value="30" oninput="updateCalculatorValues()" class="w-full accent-[#D4AF37] bg-zinc-900 h-1 rounded-lg appearance-none">
+                    </div>
+                </div>
+                <div class="bg-zinc-900/40 border border-zinc-800 p-3 rounded-xl flex justify-between items-center">
+                    <div>
+                        <p class="text-[8px] text-zinc-500 uppercase font-bold">Recommended Size</p>
+                        <p class="text-xs text-white font-mono mt-0.5">Gold Standard (0.1/pip)</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-black gold-text font-mono" id="calcResult">0.03 Lots</p>
+                        <p class="text-[8px] text-red-400 font-mono font-bold" id="riskCash">Risking $10.00</p>
+                    </div>
+                </div>
+                <button onclick="applyCalcToTerminal()" class="w-full bg-zinc-900 hover:bg-zinc-850 text-[9px] text-zinc-300 font-bold uppercase tracking-wider py-2.5 rounded-lg transition-all border border-zinc-800">
+                    Apply Calculated Lot to Terminal
+                </button>
+            </div>
+
+            <!-- TELEGRAM INTEGRATION SYSTEM -->
+            <div class="glass-panel p-5 rounded-2xl gold-border gold-glow">
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-2 mb-3">
+                    <h2 class="text-xs font-black uppercase tracking-widest text-white">Telegram Broadcaster</h2>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse" id="tele-dot"></span>
+                        <span class="text-[8px] text-zinc-400 font-bold uppercase" id="tele-status">Broadcast: ON</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-zinc-400 leading-relaxed mb-3">
+                    Copy and match terminal trades automatically to your Academy public signal pipeline channel.
+                </p>
+                <button onclick="toggleTelegram()" id="teleBtn" class="w-full bg-zinc-950 hover:bg-zinc-900 text-zinc-300 border border-zinc-800 text-[10px] font-bold uppercase py-2.5 rounded-lg transition-all tracking-widest">
+                    Pause Telegram Signals
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HORIZONTAL NAVIGATION BAR -->
+    <div class="fixed bottom-0 left-0 right-0 p-4 bg-black/95 border-t border-zinc-950 backdrop-blur-md z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center px-2">
+            
+            <button onclick="switchTab('home-page', this)" class="nav-btn flex flex-col items-center gap-1 py-1 flex-1 transition-all gold-text">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                <span class="text-[7px] font-black uppercase tracking-wider">Terminal</span>
+            </button>
+            
+            <button onclick="switchTab('signals-page', this)" class="nav-btn flex flex-col items-center gap-1 py-1 flex-1 transition-all text-zinc-500">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
+                <span class="text-[7px] font-black uppercase tracking-wider">Signals</span>
+            </button>
+            
+            <button onclick="switchTab('academy-page', this)" class="nav-btn flex flex-col items-center gap-1 py-1 flex-1 transition-all text-zinc-500">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89l-.06-1.254a1 1 0 01.17-.61l1.14-1.9zM16.69 9.397a1 1 0 01.17.61l-.06 1.254a1 1 0 01-.89.89 8.969 8.969 0 00-1.05.174V10.12l1.69-.723z"></path></svg>
+                <span class="text-[7px] font-black uppercase tracking-wider">Academy</span>
+            </button>
+
+            <button onclick="switchTab('chat-page', this)" class="nav-btn flex flex-col items-center gap-1 py-1 flex-1 transition-all text-zinc-500">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path></svg>
+                <span class="text-[7px] font-black uppercase tracking-wider">Chat</span>
+            </button>
+
+            <button onclick="switchTab('settings-page', this)" class="nav-btn flex flex-col items-center gap-1 py-1 flex-1 transition-all text-zinc-500">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+                <span class="text-[7px] font-black uppercase tracking-wider">Risk</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN INTERACTIVE SCRIPT -->
+    <script>
+        let autoSelectMode = false;
+        let telegramBroadcasting = true;
+        let currentLotSize = 0.10;
+        const API_URL = "http://127.0.0.1:5000"; 
+
+        // Multi-Pair Interactive News Data
+        const pairNewsData = {
+            "XAUUSD": {
+                headline: "XAUUSD Structural Warning",
+                detail: "Asian Session High swept. Potential institutional short block forming.",
+                icon: "⚡"
+            },
+            "EURUSD": {
+                headline: "EURUSD Eurozone CPI Forecast",
+                detail: "Liquidity build-up under 1.0820 equal lows. Watch for premium short hunt.",
+                icon: "🇪🇺"
+            },
+            "GBPUSD": {
+                headline: "GBPUSD BOE Monetary Alert",
+                detail: "Order block mitigated at 1.2650. High-probability continuation bullish order flow.",
+                icon: "🇬🇧"
+            },
+            "USDJPY": {
+                headline: "USDJPY BOJ Intervention Risk",
+                detail: "Price hitting extreme retail supply boundaries. Institutional sweep risk high.",
+                icon: "🇯🇵"
+            }
+        };
+
+        // Static Yearly NFP Calendar Schedules (EAT)
+        const nfpDatabase = {
+            "2026": [
+                { date: "Aug 7, 2026", time: "15:30 EAT" },
+                { date: "Sep 4, 2026", time: "15:30 EAT" },
+                { date: "Oct 2, 2026", time: "15:30 EAT" },
+                { date: "Nov 6, 2026", time: "16:30 EAT" },
+                { date: "Dec 4, 2026", time: "16:30 EAT" }
+            ],
+            "2027": [
+                { date: "Jan 8, 2027", time: "16:30 EAT" },
+                { date: "Feb 5, 2027", time: "16:30 EAT" },
+                { date: "Mar 5, 2027", time: "16:30 EAT" },
+                { date: "Apr 2, 2027", time: "15:30 EAT" },
+                { date: "May 7, 2027", time: "15:30 EAT" }
+            ],
+            "2028": [
+                { date: "Jan 7, 2028", time: "16:30 EAT" },
+                { date: "Feb 4, 2028", time: "16:30 EAT" },
+                { date: "Mar 3, 2028", time: "16:30 EAT" },
+                { date: "Apr 7, 2028", time: "15:30 EAT" },
+                { date: "May 5, 2028", time: "15:30 EAT" }
+            ],
+            "2029": [
+                { date: "Jan 5, 2029", time: "16:30 EAT" },
+                { date: "Feb 2, 2029", time: "16:30 EAT" },
+                { date: "Mar 2, 2029", time: "16:30 EAT" },
+                { date: "Apr 6, 2029", time: "15:30 EAT" },
+                { date: "May 4, 2029", time: "15:30 EAT" }
+            ],
+            "2030": [
+                { date: "Jan 4, 2030", time: "16:30 EAT" },
+                { date: "Feb 1, 2030", time: "16:30 EAT" },
+                { date: "Mar 1, 2030", time: "16:30 EAT" },
+                { date: "Apr 5, 2030", time: "15:30 EAT" },
+                { date: "May 3, 2030", time: "15:30 EAT" }
+            ]
+        };
+
+        // Welcome Cover Controls
+        function dismissWelcomeCover() {
+            const cover = document.getElementById("welcome-cover");
+            cover.classList.add("opacity-0", "pointer-events-none");
+            setTimeout(() => {
+                cover.style.display = "none";
+            }, 700);
+        }
+
+        // Live Session Highlights (EAT)
+        function updateSessionHighlights() {
+            const now = new Date();
+            const eatHours = now.getHours(); 
+            const tokyoActive = (eatHours >= 3 && eatHours < 12);
+            const londonActive = (eatHours >= 11 && eatHours < 20);
+            const nyActive = (eatHours >= 16 || eatHours < 1);
+
+            document.getElementById('session-tokyo').className = tokyoActive ? "bg-green-950/20 border border-green-500 rounded-lg p-2" : "bg-zinc-950/40 border border-zinc-900 rounded-lg p-2";
+            document.getElementById('session-london').className = londonActive ? "bg-green-950/20 border border-green-500 rounded-lg p-2" : "bg-zinc-950/40 border border-zinc-900 rounded-lg p-2";
+            document.getElementById('session-ny').className = nyActive ? "bg-green-950/20 border border-green-500 rounded-lg p-2" : "bg-zinc-950/40 border border-zinc-900 rounded-lg p-2";
+        }
+
+        // Dynamic Chart Updates + Multi-Pair News Sync
+        function updatePair(val) {
+            // Update TradingView Chart Element
+            let tvSymbol = "FX:XAUUSD";
+            if (val === "EURUSD") tvSymbol = "FX:EURUSD";
+            if (val === "GBPUSD") tvSymbol = "FX:GBPUSD";
+            if (val === "USDJPY") tvSymbol = "FX:USDJPY";
+
+            document.getElementById("tvWidget").src = `https://s.tradingview.com/widgetembed/?symbol=${encodeURIComponent(tvSymbol)}&interval=15&theme=dark`;
+
+            // Update Corresponding News Panel Info
+            if (pairNewsData[val]) {
+                document.getElementById("news-headline").textContent = pairNewsData[val].headline;
+                document.getElementById("news-detail").textContent = pairNewsData[val].detail;
+                document.getElementById("news-icon").textContent = pairNewsData[val].icon;
+            }
+            writeLog(`[Pair Switched] Chart and news feed updated to ${val}`);
+        }
+
+        // Auto Select Toggle
+        function toggleAutoSelect() {
+            autoSelectMode = !autoSelectMode;
+            const ind = document.getElementById("auto-indicator");
+            const status = document.getElementById("auto-status");
+            if (autoSelectMode) {
+                ind.className = "w-2 h-2 rounded-full bg-green-500 animate-pulse";
+                status.textContent = "ALGO ACTIVE";
+                status.className = "text-[9px] font-bold px-2 py-0.5 rounded bg-green-950/30 text-green-400 font-mono";
+                writeLog("[System] Algo Auto-Select Mode activated.");
+            } else {
+                ind.className = "w-2 h-2 rounded-full bg-zinc-500";
+                status.textContent = "MANUAL ACTIVE";
+                status.className = "text-[9px] font-bold px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 font-mono";
+                writeLog("[System] Switched to Manual Asset Override.");
+            }
+        }
+
+        // Render Yearly NFP Lists
+        function renderNFPDates(year) {
+            const listContainer = document.getElementById("nfp-events-list");
+            const events = nfpDatabase[year] || [];
+            listContainer.innerHTML = "";
+
+            events.forEach((evt) => {
+                const item = document.createElement("div");
+                item.className = "flex justify-between items-center bg-zinc-900/40 border border-zinc-800 p-2 rounded-lg text-[9px] font-mono";
+                item.innerHTML = `
+                    <span class="text-zinc-400 font-bold">${evt.date}</span>
+                    <span class="gold-text font-black">${evt.time}</span>
+                `;
+                listContainer.appendChild(item);
+            });
+
+            // Update top imminent date display banner
+            if (events.length > 0) {
+                document.getElementById("nfp-date-string").textContent = `${events[0].date} at ${events[0].time}`;
+            }
+        }
+
+        // MT5 Backend Connection Checker
+        async function checkBackendConnection() {
+            try {
+                const res = await fetch(`${API_URL}/status`);
+                const data = await res.json();
+                if (data.connected) {
+                    document.getElementById("global-status-dot").className = "w-3 h-3 rounded-full bg-green-500 animate-pulse";
+                    document.getElementById("bridge-status-text").textContent = "Bridge Status: Connected to MT5";
+                }
+            } catch(e) {
+                document.getElementById("global-status-dot").className = "w-3 h-3 rounded-full bg-red-500";
+                document.getElementById("bridge-status-text").textContent = "Bridge Status: Offline (Run Python Script)";
+            }
+        }
+
+        function adjustLot(val) {
+            currentLotSize = Math.max(0.01, Math.round((currentLotSize + val) * 100) / 100);
+            document.getElementById("tradeLotSize").textContent = currentLotSize.toFixed(2);
+        }
+
+        function updateCalculatorValues() {
+            const balance = parseFloat(document.getElementById("calcBalance").value);
+            const risk = parseFloat(document.getElementById("calcRisk").value);
+            const sl = parseFloat(document.getElementById("calcStopLoss").value);
+
+            document.getElementById("labelBalance").textContent = `$${balance.toLocaleString()}`;
+            document.getElementById("labelRisk").textContent = `${risk}%`;
+            document.getElementById("labelStopLoss").textContent = `${sl} Pips`;
+
+            const cashRisk = balance * (risk / 100);
+            const rawLot = cashRisk / (sl * 10);
+            const calculatedLot = Math.max(0.01, Math.round(rawLot * 100) / 100);
+
+            document.getElementById("calcResult").textContent = `${calculatedLot.toFixed(2)} Lots`;
+            document.getElementById("riskCash").textContent = `Risking $${cashRisk.toFixed(2)}`;
+        }
+
+        function applyCalcToTerminal() {
+            const lots = parseFloat(document.getElementById("calcResult").textContent);
+            currentLotSize = lots;
+            document.getElementById("tradeLotSize").textContent = lots.toFixed(2);
+            writeLog(`[System] Lot size applied from calculator: ${lots}`);
+            switchTab('home-page', document.querySelector('.nav-btn'));
+        }
+
+        async function executeDirectTrade(action) {
+            const pair = document.getElementById("pairSelector").value;
+            const lot = currentLotSize;
+            writeLog(`[Command] Dispatching order: ${action} ${lot} lot on ${pair}...`);
+
+            try {
+                const res = await fetch(`${API_URL}/execute`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ action, pair, lot, telegram: telegramBroadcasting })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    writeLog(`[MT5 Success] Filled. Ticket ID: ${data.ticket}`);
+                } else {
+                    writeLog(`[MT5 Error] Rejected: ${data.error}`);
+                }
+            } catch (e) {
+                writeLog(`[Pipeline Warning] Bridge offline. Simulating pipeline actions.`);
+            }
+        }
+
+        function toggleTelegram() {
+            telegramBroadcasting = !telegramBroadcasting;
+            document.getElementById("tele-status").textContent = telegramBroadcasting ? "Broadcast: ON" : "Broadcast: OFF";
+            document.getElementById("tele-dot").className = telegramBroadcasting ? "w-2 h-2 rounded-full bg-green-500 animate-pulse" : "w-2 h-2 rounded-full bg-red-500";
+            document.getElementById("teleBtn").textContent = telegramBroadcasting ? "Pause Telegram Signals" : "Resume Telegram Signals";
+            writeLog(`[Telegram Pipeline] Set to ${telegramBroadcasting ? 'ACTIVE' : 'INACTIVE'}`);
+        }
+
+        function writeLog(text) {
+            const logs = document.getElementById("console-logs");
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            logs.innerHTML += `<p class="text-zinc-300">[${timeStr}] ${text}</p>`;
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        function switchTab(pageId, element) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('gold-text');
+                btn.classList.add('text-zinc-500');
+            });
+            element.classList.add('gold-text');
+            element.classList.remove('text-zinc-500');
+        }
+
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            const isOpen = content.classList.contains('open');
+            
+            document.querySelectorAll('.accordion-content').forEach(acc => {
+                acc.classList.remove('open');
+                const accId = acc.id;
+                document.getElementById(accId + '-icon').textContent = '▼';
+            });
+
+            if (!isOpen) {
+                content.classList.add('open');
+                icon.textContent = '▲';
+            }
+        }
+
+        function sendChatMessage() {
+            const inputElement = document.getElementById("chatInput");
+            const message = inputElement.innerText.trim();
+            if (message === "") return;
+
+            const chatBox = document.getElementById("chat-box");
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const newMsg = `
+                <div class="bg-zinc-900/40 border border-zinc-850 p-2.5 rounded-xl max-w-[85%] self-end ml-auto text-right">
+                    <p class="font-black text-white mb-0.5">Tamale Trevor <span class="text-[7px] text-zinc-500 font-normal">${timeStr}</span></p>
+                    <p class="text-zinc-300">${message}</p>
+                </div>
+            `;
+            
+            chatBox.innerHTML += newMsg;
+            inputElement.innerText = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Initialize Core Features
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSessionHighlights();
+            updateCalculatorValues();
+            renderNFPDates("2026");
+            setInterval(checkBackendConnection, 4000);
+        });
+    </script>
+</body>
+</html>
